@@ -20,9 +20,9 @@ public class CommandService : ICommandService
         Point currentPoint = new Point();
         currentPoint.CoordinateX = roverCommandDto.StartCoordinateX;
         currentPoint.CoordinateY = roverCommandDto.StartCoordinateY;
-        currentPoint.Direction = GetDirection(roverCommandDto.StartDirection);
+        currentPoint.Direction = GetDirection(roverCommandDto.StartDirection.ToUpper());
 
-        char[] commandList = roverCommandDto.Commands.ToCharArray();
+        char[] commandList = roverCommandDto.Commands.ToUpper().ToCharArray();
         foreach (var command in commandList)
         {
             if (command == 'L')
