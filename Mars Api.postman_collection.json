@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "5230ce85-3ee4-4e0a-aad9-3f090fa8db95",
+		"name": "Mars Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Mars Api",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"Commands\":\"MMRMMRMrrM\",\n\"StartCoordinateX\":\"3\",\n\"StartCoordinateY\":\"3\",\n\"StartDirection\":\"e\",\n\"DimensionX\":\"5\",\n\"DimensionY\":\"5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://testapi.dustu.net/api/command",
+					"protocol": "http",
+					"host": [
+						"testapi",
+						"dustu",
+						"net"
+					],
+					"path": [
+						"api",
+						"command"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
