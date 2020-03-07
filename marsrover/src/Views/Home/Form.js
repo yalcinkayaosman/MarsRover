@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { Form, Input, Button, InputNumber } from "antd";
-import axios from "axios";
 
 class FormDiv extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      someVal: "Osman Yalçınkaya",
+      resultValue: "Osman Yalçınkaya",
       DimensionX: "",
       DimensionY: "",
       StartPoint: "",
@@ -29,16 +28,31 @@ class FormDiv extends Component {
       DimensionY: this.state.DimensionY
     };
 
-    axios
-      .post(`http://testapi.dustu.net/api/command`, {
-        headers: { "Access-Control-Allow-Origin": "*" },
-        sendData
-      })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      });
-    console.log(this.state);
+    fetch("http://testapi.dustu.net/api/command", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(sendData)
+    })
+      .then(res => res.json())
+      .then(
+        result => {
+          console.log(result);
+          this.setState({
+            isLoaded: true,
+            items: result.items,
+            resultValue: result.message + " " + result.result
+          });
+        },
+        error => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      );
   }
 
   handleChange(event) {
@@ -128,7 +142,7 @@ class FormDiv extends Component {
         </Form.Item>
 
         <Form.Item label="Sonuç" name="5">
-          <div>{this.state.someVal}</div>
+          <div>{this.state.resultValue}</div>
         </Form.Item>
         <Form.Item {...tailLayout}>
           <Button type="primary" onClick={this.handleClick}>
