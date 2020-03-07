@@ -12,8 +12,8 @@ namespace marsroverapi.Controllers
             _commandService = commandService;
         }
 
-         [HttpGet]
-        public ActionResult<ResultObjectDto> Get(RoverCommandDto roverCommandDto)
+        [HttpPost]
+        public ActionResult<ResultObjectDto> MarsRover(RoverCommandDto roverCommandDto)
         {
             return _commandService.MoveRover(roverCommandDto);
         }

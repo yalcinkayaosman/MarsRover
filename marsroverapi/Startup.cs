@@ -9,34 +9,36 @@ namespace marsroverapi
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // cors policydeki ayarları
             services.AddCors(options =>
- {
-     options.AddPolicy("CorsPolicy",
-             builder => builder.AllowAnyOrigin()
+            {
+                options.AddPolicy("CorsPolicy",
+                builder => builder.AllowAnyOrigin()
                                .AllowAnyMethod()
                                .AllowAnyHeader()
                                .AllowCredentials());
- });
+         });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // mongodb kullanacaksak eğer bu config ile db bilgilerini config den okuyoruz
             services.Configure<MongoSettings>(options =>
-    {
-        options.ConnectionString
-            = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-        options.Database
-            = Configuration.GetSection("MongoConnection:Database").Value;
-    });
+            {
+               options.ConnectionString   = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+               options.Database  = Configuration.GetSection("MongoConnection:Database").Value; 
+            });
+
+            // register 
             services.AddTransient<ICommandService, CommandService>();
             services.AddTransient<ICommandRepository, CommandRepository>();
             services.AddTransient<IRepository<Command>, Repository<Command>>();
@@ -45,6 +47,7 @@ namespace marsroverapi
             services.AddTransient<IRepository<User>, Repository<User>>();
             services.AddTransient<IMongoRepository<User>, MongoRepository<User>>();
 
+            // swagger implementasyonunu burada yapıyoruz. swagger kullanımı için http://testapi.dustu.net/swagger/index.html adresine girebilirsiniz
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("marsroverapi", new OpenApiInfo
@@ -66,9 +69,11 @@ namespace marsroverapi
                 app.UseHsts();
             }
 
-            app.UseMiddleware<BasicAuthMiddleware>("tetxua.com");
+            //burada basicaout entegrasyonu var, comment i kaldırırsanız apiye bağlanırken user-pass isteyecektir
+            //app.UseMiddleware<BasicAuthMiddleware>("tetxua.com");
             app.UseHttpsRedirection();
             app.UseCors("CorsPolicy");
+
             app.UseMvc();
 
             app.UseSwagger()

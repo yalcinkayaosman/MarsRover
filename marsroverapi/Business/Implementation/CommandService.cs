@@ -49,11 +49,12 @@ public class CommandService : ICommandService
         {
             result.Message = "Rover uzay boşluğuna düştü.";
             result.IsSuccess = false;
+        } else {
+            result.Message = "Görev başarıyla tamamlandı.";
+            result.IsSuccess = true;
+            result.Result = String.Format("Konum : {0}-{1}-{2}", currentPoint.CoordinateX, currentPoint.CoordinateY, SetDirection(currentPoint.Direction));
         }
 
-        result.Message = "Görev başarıyla tamamlandı.";
-        result.IsSuccess = true;
-        result.Result = String.Format("Konum : {0}-{1}-{2}", currentPoint.CoordinateX, currentPoint.CoordinateY, SetDirection(currentPoint.Direction));
         return result;
     }
 

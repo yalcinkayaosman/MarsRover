@@ -50,6 +50,8 @@ public class BasicAuthMiddleware
     // Make your own implementation of this
     public bool IsAuthorized(string username, string password)
     {
+        // şu an bir db bağlantımız olmadığı için burayı true dönecek şekilde kapattık
+
         // IConfiguration config = new ConfigurationBuilder()
         //     .AddJsonFile("appsettings.json", true, true)
         //     .Build();
